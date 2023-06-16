@@ -309,8 +309,6 @@ if($relpath !== './'){
 <html><head>
 <meta charset='utf-8'>
 <title><?=$title?></title>
-<link href='//cdn.rawgit.com/brutaldesign/swipebox/master/src/css/swipebox.min.css' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type='text/css'>
 html,body {
     margin: 0;
@@ -406,8 +404,6 @@ select {
 }
 
 </style>
-    <script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src='//cdn.rawgit.com/brutaldesign/swipebox/master/src/js/jquery.swipebox.js'></script>
 </head>
 <body>
     <div id='slides'>

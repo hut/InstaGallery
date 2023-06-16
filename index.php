@@ -4,6 +4,7 @@
  *
  * 
  * Copyright (C) 2014, Michael Moore <stuporglue@gmail.com>
+ * Copyright (C) 2023, Roman Zimbelmann <hut@hut.pm>
  *
  * Licensed under the MIT license. 
  *
@@ -31,7 +32,7 @@ $bgcolor = '#d0d5ee'; // background color
  */
 function getTargetPath($path){
     // Find and validate the target path
-    $targetdir = $path  . (isset($_REQUEST['d']) ? '/' . $_REQUEST['d'] : '');
+    $targetdir = $path;
     while(strpos($targetdir,'..') !== FALSE){
         die("No double dot paths");
         // Get rid of double dots and make sure that our path is a subdirectory of the $path directory
@@ -65,61 +66,6 @@ function prettyName($name){
         return $origName;
     }
     return $name;
-}
-
-/**
- * Get the Table of Contents for the navigation
- * @param $path The base path
- * @return An html string for the nav
- */
-function getNav($path,$relpath){
-    $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
-    $dots = Array('.','..');
-    $wrapup = Array();
-    foreach($objects as $name => $object){
-    if($object->isDir() && !in_array($object->getBaseName(),$dots)){
-            $name = explode('/',str_replace($path . '/','',$name));
-            $wraplink = &$wrapup;
-            $part = array_shift($name);
-            while(@is_array($wraplink[$part])){
-                $wraplink = &$wraplink[$part];
-                $part = array_shift($name);
-            }
-            if($part[0] != '.'){ // skip hidden files/directories
-                $wraplink[$part] = Array();
-            }
-        }
-    }
-
-    $rel = array_filter(explode('/',$relpath));
-    $pathparts = Array();
-    $navparts[] = "<span><a href='?d=' class='home'>Home</a></span>";
-
-    $builtPath = Array();
-    foreach($rel as $curpart){
-        uksort($wrapup,function($a,$b){ return strnatcmp(prettyName($a),prettyName($b)); });
-        $html = "\n<select class='navchange'>\n";
-        foreach($wrapup as $pathpart => $childparts){
-            $html .= "<option value='" . implode('/',$builtPath) . (count($builtPath) > 0 ? '/' : '') . $pathpart . "'". ($pathpart == $curpart ? ' selected' : '')  .">" . prettyName($pathpart) . "</option>";
-        }
-        $wrapup = &$wrapup[$curpart];
-        $builtPath[] = $curpart;
-        $html .= "</select>\n";
-        $navparts[] = $html;
-    }
-
-    if(count($wrapup) > 0){
-        $html = "\n<select class='navchange'>\n";
-        $html .= "<option value='" . implode('/',$builtPath) ."'>--</option>\n";
-        uksort($wrapup,function($a,$b){ return strnatcmp(prettyName($a),prettyName($b)); });
-        foreach($wrapup as $pathpart => $childparts){
-            $html .= "<option value='" . implode('/',$builtPath) . (count($builtPath) > 0 ? '/' : '') . $pathpart . "'>" . prettyName($pathpart) . "</option>";
-        }
-        $html .= "</select>\n";
-        $navparts[] = $html;
-    }
-
-    return "<form>" . implode(' :: ',$navparts) . "</form>";
 }
 
 /**
@@ -191,7 +137,7 @@ function getSlides($targetdir,$relpath,$thumbnailSize){
     foreach($media as $filename => $title){
             $thumbname = $relpath . '/' . preg_replace('/(.*)\.([A-Za-z0-9]{3})/',"$1" . "_thumb." . "$2",$filename);
             if(!is_file($thumbname)){
-                $thumbname = "?d=$relpath&amp;t=$filename";
+                $thumbname = "?t=$filename";
             }
             $html .= "<div id='$filename' class='thumbnailwrapouter'>";
             $html .= "<span class='thumbnailinner'>";
@@ -347,7 +293,6 @@ if(isset($_GET['t'])){
     exit();
 }
 
-$nav = getNav($path,$relpath);
 $slides = getSlides($targetdir,$relpath,$thumbnailSize);
 
 //////////////////////
@@ -375,18 +320,6 @@ html,body {
     height: 100%;
     color: #444;
     text-align: center;
-}
-
-#nav {
-    position: absolute;
-    background: rgba(255,255,255,0.8);
-    padding: 3px 10px;
-    width: calc(100% - 20px);
-    text-align: left;
-}
-
-#nav form {
-	display: inline-block;
 }
 
 #slides {
@@ -490,9 +423,6 @@ select {
     <script src='//cdn.rawgit.com/brutaldesign/swipebox/master/src/js/jquery.swipebox.js'></script>
 </head>
 <body>
-    <div id='nav'>
-        <?=$nav?> 
-    </div>
     <div id='slides'>
         <?=$slides?>
     </div>
@@ -543,12 +473,6 @@ select {
             },
             afterClose: function(){
                 window.clearInterval($('#ppbutton').attr('data-intid'));
-            }
-        });
-
-        $('.navchange').on('change',function(e){
-            if(('d=' + e.target.value) != document.location.search){
-                document.location.search = 'd=' + e.target.value;
             }
         });
 

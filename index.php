@@ -11,7 +11,7 @@
  * Quick Start: 
  * Place this file in the top-level directory where you want photo galleries to appear. 
  *
- * For more details see https://github.com/stuporglue/InstaGallery
+ * For more details see https://github.com/hut/InstaGallery
  */
 
 
@@ -414,7 +414,7 @@ select {
         <?=$slides?>
     </div>
     <div id='footer'>
-        <a href='https://github.com/stuporglue/InstaGallery'>Gallery by InstaGallery</a>
+        <a href='https://github.com/hut/InstaGallery'>Gallery by InstaGallery (hut's fork)</a>
     </div>
     <?php print implode("\n",$moreHtml); ?>
     <script>

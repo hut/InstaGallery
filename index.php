@@ -164,7 +164,7 @@ function getSlides($targetdir,$relpath,$thumbnailSize){
 			}
 
             $html .= "</span>";
-            $html .= "<div class='filename'>". $title ."</div></div>\n";
+            $html .= "</div>\n";
     }
     if(count($media) === 0){
         return "<div class='error'>No photos found. Try another directory.</div>";
@@ -342,17 +342,6 @@ html,body {
 
 img.thumbnail {
 	width: 100%;
-}
-
-.filename {
-    margin: 0 10px;
-    font-family: monospace, cursive;
-    font-size: calc(<?=$thumbnailSize?>px * 0.05);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: inline-block;
-    max-width: calc(100% - 30px);
 }
 
 #footer {

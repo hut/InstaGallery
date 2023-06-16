@@ -140,7 +140,6 @@ function getSlides($targetdir,$relpath,$thumbnailSize){
                 $thumbname = "?t=$filename";
             }
             $html .= "<div id='$filename' class='thumbnailwrapouter'>";
-            $html .= "<span class='thumbnailinner'>";
             $filepath = preg_replace('#/+#','/', ($relpath == '' ? '' : $relpath . '/') . $filename);
 
 			$mime = finfo_file($finfo, $filepath);
@@ -158,12 +157,11 @@ function getSlides($targetdir,$relpath,$thumbnailSize){
 				$html .= '<source src="' . $filepath . '" type="' . $mime . '">';
 				$html .= ' Your browser does not support the video tag.</video>';
 			} else {
-				$html .= "<a href='$filepath' title='".htmlentities($title)."' class='swipebox thumbnaillink' rel='album' >";
+				$html .= "<a href='$filepath' title='".htmlentities($title)."'' rel='album' >";
 					$html .= "<img data-mime='$mime' src='$thumbname' class='thumbnail'/>";
 				$html .= "</a>";
 			}
 
-            $html .= "</span>";
             $html .= "</div>\n";
     }
     if(count($media) === 0){
@@ -320,7 +318,6 @@ html,body {
 }
 
 #slides {
-    padding-top: 25px;
     max-width: 100%;
     border: 2px beveled black;
 }
@@ -334,10 +331,6 @@ html,body {
 
 .thumbnailwrapouter {
     display: inline-block;
-    height: <?=$thumbnailSize?>px;
-    width: <?=$thumbnailSize?>px;
-    margin: 10px;
-    background-color: black;
 }
 
 img.thumbnail {

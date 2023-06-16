@@ -17,7 +17,7 @@
 
 $path = __DIR__;      // The base directory for the photos, defaults to the current directory
 $thumbnailSize = 300; // size in pixels
-$bgcolor = '#d0d5ee'; // background color
+$bgcolor = '#000000'; // background color
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -309,16 +309,15 @@ if($relpath !== './'){
 <html><head>
 <meta charset='utf-8'>
 <title><?=$title?></title>
-<link href='//fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
 <link href='//cdn.rawgit.com/brutaldesign/swipebox/master/src/css/swipebox.min.css' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <style type='text/css'>
 html,body {
     margin: 0;
     padding: 0;
-    background: <?=$bgcolor?> url('data:image/gif;base64,R0lGODlhBgAGAIABAP///wAAACH5BAEKAAEALAAAAAAGAAYAAAIJRB6geMuOYAMFADs') fixed;
+    background: <?=$bgcolor?>;
     height: 100%;
-    color: #444;
+    color: #fcb;
     text-align: center;
 }
 
@@ -340,19 +339,7 @@ html,body {
     height: <?=$thumbnailSize?>px;
     width: <?=$thumbnailSize?>px;
     margin: 10px;
-    background-color: white;
-    border: 1px solid #ccc;
-    -webkit-box-shadow: 6px 10px 13px -1px rgba(94,94,94,0.7);
-    -moz-box-shadow: 6px 10px 13px -1px rgba(94,94,94,0.7);
-    box-shadow: 6px 10px 13px -1px rgba(94,94,94,0.7);
-}
-
-.thumbnailinner {
-    display: inline-block;
-    height: calc(<?=$thumbnailSize?>px * 0.75);
-    width: calc(<?=$thumbnailSize?>px * 0.9);
-    margin-top: 15px;
-    overflow: hidden;
+    background-color: black;
 }
 
 img.thumbnail {
@@ -361,8 +348,8 @@ img.thumbnail {
 
 .filename {
     margin: 0 10px;
-    font-family: 'Shadows Into Light', cursive;
-    font-size: calc(<?=$thumbnailSize?>px * 0.1);
+    font-family: monospace, cursive;
+    font-size: calc(<?=$thumbnailSize?>px * 0.05);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
